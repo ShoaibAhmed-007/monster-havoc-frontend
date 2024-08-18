@@ -1,4 +1,4 @@
 function Hero() {
-  return <div>Hero</div>;
+  return <div className="h-[90vh]">Hero</div>;
 }
 export default Hero;

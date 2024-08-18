@@ -36,7 +36,7 @@ function Navbar() {
           {/* Nav Links for larger screens */}
           <div className="hidden md:flex justify-around items-center gap-5">
             <div>
-              <Link href="#">Game Features</Link>
+              <Link href="#gameFeatures">Game Features</Link>
             </div>
             <div>
               <Link href="#">Latest Updates</Link>
