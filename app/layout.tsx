@@ -18,7 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} relative`}>
+        <div className="bodyBgImg"></div>
         <Navbar />
         {children}
         <Footer />
