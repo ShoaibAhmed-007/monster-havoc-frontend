@@ -13,9 +13,9 @@ function Navbar() {
 
   return (
     <>
-      <div className="w-full flex justify-between items-center bg-[rgba(0,0,0,0.9)] py-4 px-2 text-white xl:text-lg lg:text-base md:text-sm sm:text-xs max-sm:text-[9px]">
+      <div className="w-full flex justify-between items-center bg-[rgba(0,0,0,0.3)] py-4 px-4 md:px-8 text-white xl:text-lg lg:text-base md:text-sm sm:text-xs max-sm:text-[9px]">
         {/* Logo and Menu Links */}
-        <div className="flex justify-between items-center w-full md:w-[35%]">
+        <div className="flex justify-between items-center w-full md:w-[28%]">
           <img
             className="xl:h-12 lg:h-10 md:h-8 sm:h-6 max-sm:h-6"
             src="/images/logo.png"
@@ -34,7 +34,7 @@ function Navbar() {
           </div>
 
           {/* Nav Links for larger screens */}
-          <div className="hidden md:flex justify-around items-center w-full">
+          <div className="hidden md:flex justify-around items-center gap-5">
             <div>
               <Link href="#">Game Features</Link>
             </div>
