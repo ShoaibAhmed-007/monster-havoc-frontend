@@ -2,6 +2,7 @@ import React from "react";
 import MonsterDB from "./MonsterDB";
 import BattleSystem from "./BattleSystem";
 import MonsterCapture from "./MonsterCapture";
+import Marketplace from "./Marketplace";
 
 function GameFeatures() {
   return (
@@ -13,6 +14,7 @@ function GameFeatures() {
         <MonsterDB />
         <BattleSystem />
         <MonsterCapture />
+        <Marketplace />
       </div>
     </>
   );
