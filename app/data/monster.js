@@ -16,8 +16,8 @@ const monsters = [
     name: "Crystalis",
   },
   {
-    img: "/images/monsters/Lumispark.jpeg",
-    name: "Lumispark",
+    img: "/images/monsters/Stormrider.jpeg",
+    name: "Stormrider",
   },
   {
     img: "/images/monsters/Pyrofang.jpeg",
@@ -36,8 +36,8 @@ const monsters = [
     name: "Venomtail",
   },
   {
-    img: "/images/monsters/Windrazor.jpeg",
-    name: "Windrazor",
+    img: "/images/monsters/Glimmerfang.jpeg",
+    name: "Glimmerfang",
   },
 ];
 
