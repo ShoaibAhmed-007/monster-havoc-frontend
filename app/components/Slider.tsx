@@ -16,7 +16,7 @@ function Slider({ data }: { data: { img: string; name: string }[] }) {
     >
       {data.map((monster, idx) => {
         return (
-          <SwiperSlide>
+          <SwiperSlide key={idx}>
             <div className="flex flex-col font-bold gap-2 text-white justify-center items-center">
               <img className="rounded-xl" src={monster.img} alt="monster" />
               <div>{monster.name}</div>

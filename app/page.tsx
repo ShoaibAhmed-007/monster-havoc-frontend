@@ -4,7 +4,9 @@ export default function Home() {
   return (
     <>
       <div>
-        <Hero />
+        <div id="hero">
+          <Hero />
+        </div>
         <div id="gameFeatures">
           <GameFeatures />
         </div>

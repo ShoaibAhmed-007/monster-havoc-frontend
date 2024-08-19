@@ -6,7 +6,7 @@ function MonsterCapture() {
       <div className="flex justify-center items-center">
         <div className="w-[90%] gap-10 flex justify-center items-center  border-2 border-white py-8 px-20 rounded-2xl text-white">
           <div className="h-[15em] w-[50%] flex flex-col justify-center gap-4">
-            <div className="text-2xl font-bold">Battle System</div>
+            <div className="text-2xl font-bold">Monster Capture</div>
             <p>
               The Monster Capture system in Monster Tamer RPG lets you catch
               wild creatures during your adventures, adding them to your growing
