@@ -2,6 +2,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import Image from "next/image";
 import "swiper/css";
 
 function Slider({ data }: { data: { img: string; name: string }[] }) {
@@ -18,7 +19,13 @@ function Slider({ data }: { data: { img: string; name: string }[] }) {
         return (
           <SwiperSlide key={idx}>
             <div className="flex flex-col font-bold gap-2 text-white justify-center items-center">
-              <img className="rounded-xl" src={monster.img} alt="monster" />
+              <Image
+                className="rounded-xl"
+                src={monster.img}
+                alt="monster"
+                height={300}
+                width={300}
+              />
               <div>{monster.name}</div>
             </div>
           </SwiperSlide>
