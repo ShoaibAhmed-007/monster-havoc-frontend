@@ -52,7 +52,7 @@ function Navbar() {
             transition={{ type: "spring", damping: 10 }}
             className="rounded-full border-2 border-white xl:px-8 xl:py-2 py-1 lg:px-6 md:px-4 sm:px-3 max-sm:px-2"
           >
-            Signup
+            <Link href={"/Pages/auth/signup"}>Signup</Link>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -60,7 +60,7 @@ function Navbar() {
             transition={{ type: "spring", damping: 10 }}
             className="rounded-full border-2 border-white xl:px-8 xl:py-2 py-1 lg:px-6 md:px-4 sm:px-3 max-sm:px-2"
           >
-            Login
+            <Link href={"/Pages/auth/login"}>Login</Link>
           </motion.button>
         </div>
       </div>
@@ -81,7 +81,7 @@ function Navbar() {
               transition={{ type: "spring", damping: 10 }}
               className="rounded-full border-2 border-white xl:px-8 xl:py-2 py-1 lg:px-6 md:px-4 sm:px-3 max-sm:px-2 my-2"
             >
-              Signup
+              <Link href={"/Pages/auth/signup"}>Signup</Link>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -89,7 +89,7 @@ function Navbar() {
               transition={{ type: "spring", damping: 10 }}
               className="rounded-full border-2 border-white xl:px-8 xl:py-2 py-1 lg:px-6 md:px-4 sm:px-3 max-sm:px-2 my-2"
             >
-              Login
+              <Link href={"/Pages/auth/login"}>Login</Link>
             </motion.button>
           </div>
         </div>

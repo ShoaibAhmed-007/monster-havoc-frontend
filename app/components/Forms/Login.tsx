@@ -1,71 +1,186 @@
+"use client";
+
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { object, string } from "yup";
+import { useFormik } from "formik";
+
+type userLoginType = {
+  email: string;
+  password: string;
+};
+
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const loginUser = async (userLogin: userLoginType) => {
+  const response = await fetch(`${baseURL}/api/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userLogin),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create user");
+  }
+
+  return response.json();
+};
+
+const userLoginSchema = object({
+  email: string().email("Invalid email format").required("Email is required"),
+  password: string()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/,
+      "Password must contain at least one lowercase letter, one uppercase letter, and one special character"
+    )
+    .required("Password is required"),
+});
 
 function Login() {
+  const mutation = useMutation({
+    mutationFn: loginUser,
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: userLoginSchema,
+    onSubmit: (values, { setSubmitting }) => {
+      mutation.mutate(values, {
+        onSuccess: (response) => {
+          setSubmitting(false);
+          formik.resetForm();
+          console.log(response, "Response");
+        },
+        onError: () => {
+          setSubmitting(false);
+        },
+      });
+    },
+  });
+
   return (
     <section>
-      <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+      <div className="flex items-center justify-center px-4 py-16">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center">
-            <img className="p-6" src="/images/logo.png" alt="" />
+            <img className="py-2" src="/images/logo.png" alt="" />
           </div>
           <h2 className="text-center text-2xl font-bold leading-tight ">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-[#e4cfcf] ">
             Don&apos;t have an account?{" "}
-            <a
-              href="#"
+            <Link
+              href="/Pages/auth/signup"
               title=""
               className="font-semibold text-[#e4cfcf] transition-all duration-200 hover:underline"
             >
               Create a free account
-            </a>
+            </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+
+          <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="space-y-5">
               <div>
-                <label htmlFor="" className="text-base font-medium ">
-                  {" "}
-                  Email address{" "}
+                <label htmlFor="email" className="text-base font-medium">
+                  Email Address
                 </label>
                 <div className="mt-2">
                   <input
-                    className="flex h-10 w-full rounded-md border border-[#e4cfcf] bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    className={`flex h-10 w-full rounded-md border ${
+                      formik.errors.email && formik.touched.email
+                        ? "border-red-500"
+                        : "border-[#e4cfcf]"
+                    } bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
+                      formik.errors.email && formik.touched.email
+                        ? "focus:ring-red-500"
+                        : "focus:ring-gray-400"
+                    } focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50`}
                     type="email"
                     placeholder="Email"
-                  ></input>
+                    id="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                  />
+                  {formik.errors.email && formik.touched.email && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {formik.errors.email}
+                    </p>
+                  )}
                 </div>
               </div>
+
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="" className="text-base font-medium">
-                    {" "}
-                    Password{" "}
+                  <label htmlFor="password" className="text-base font-medium">
+                    Password
                   </label>
-                  <a
-                    href="#"
-                    title=""
-                    className="text-sm font-semibold hover:underline"
-                  >
-                    {" "}
-                    Forgot password?{" "}
-                  </a>
                 </div>
                 <div className="mt-2">
                   <input
-                    className="flex h-10 w-full rounded-md border border-[#e4cfcf] bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    className={`flex h-10 w-full rounded-md border ${
+                      formik.errors.password && formik.touched.password
+                        ? "border-red-500"
+                        : "border-[#e4cfcf]"
+                    } bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
+                      formik.errors.password && formik.touched.password
+                        ? "focus:ring-red-500"
+                        : "focus:ring-gray-400"
+                    } focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50`}
                     type="password"
                     placeholder="Password"
-                  ></input>
+                    id="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                  />
+                  {formik.errors.password && formik.touched.password && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {formik.errors.password}
+                    </p>
+                  )}
                 </div>
               </div>
               <div>
                 <button
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  type="submit"
+                  disabled={formik.isSubmitting}
+                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 disabled:opacity-50"
                 >
-                  Get started <ArrowRight className="ml-2" size={16} />
+                  {formik.isSubmitting ? (
+                    <svg
+                      className="mr-2 h-4 w-4 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    <>
+                      Get Started <ArrowRight className="ml-2" size={16} />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

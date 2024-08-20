@@ -6,9 +6,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="max-h-screen">
       <div className="bodyBgImg"></div>
-
       <div>{children}</div>
     </div>
   );
