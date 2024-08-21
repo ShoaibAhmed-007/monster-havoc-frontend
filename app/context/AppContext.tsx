@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -48,23 +49,43 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function getUserData(_id: string) {
     try {
-      const response = await fetch(`${baseURL}/api/getUserData`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ _id }),
-      });
+      const response = await axios.post(
+        `${baseURL}/api/getUserData`,
+        { _id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
+      // No need to check for response.ok, as axios will throw an error for non-2xx status codes
+      const data = response.data;
 
-      const data = await response.json();
+      // Optionally, you can log or use the data here
       console.log(data);
       setUserData(data.userData); // Return data if needed elsewhere
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      // Axios error object has more information about the error
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message);
+        // Optionally, handle different types of Axios errors here
+        if (error.response) {
+          // The request was made, and the server responded with a status code
+          // outside the range of 2xx
+          console.error("Response error:", error.response.data);
+          console.error("Response status:", error.response.status);
+          console.error("Response headers:", error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("No response received:", error.request);
+        } else {
+          // Something happened in setting up the request
+          console.error("Error in setup:", error.message);
+        }
+      } else {
+        console.error("General error:", error);
+      }
     }
   }
 
