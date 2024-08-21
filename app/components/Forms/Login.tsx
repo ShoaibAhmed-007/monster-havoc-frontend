@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { object, string } from "yup";
 import { useFormik } from "formik";
+import { useAppContext, UserDataType } from "@/app/context/AppContext";
+import { useRouter } from "next/navigation";
 
 type userLoginType = {
   email: string;
@@ -14,7 +16,7 @@ type userLoginType = {
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const loginUser = async (userLogin: userLoginType) => {
+const postUserLogin = async (userLogin: userLoginType) => {
   const response = await fetch(`${baseURL}/api/login`, {
     method: "POST",
     credentials: "include",
@@ -43,8 +45,12 @@ const userLoginSchema = object({
 
 function Login() {
   const mutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: postUserLogin,
   });
+
+  const { loginUser } = useAppContext();
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -54,10 +60,11 @@ function Login() {
     validationSchema: userLoginSchema,
     onSubmit: (values, { setSubmitting }) => {
       mutation.mutate(values, {
-        onSuccess: (response) => {
+        onSuccess: (response: UserDataType) => {
           setSubmitting(false);
           formik.resetForm();
-          console.log(response, "Response");
+          loginUser(response);
+          router.push("/Pages/index");
         },
         onError: () => {
           setSubmitting(false);

@@ -5,6 +5,7 @@ import "./globals.scss";
 import queryClient from "./utils/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { AlertProvider } from "./context/AlertContext";
+import { AppProvider } from "./context/AppContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} relative`}>
-        <QueryClientProvider client={queryClient}>
-          <AlertProvider>{children}</AlertProvider>
-        </QueryClientProvider>
+        <AppProvider>
+          <QueryClientProvider client={queryClient}>
+            <AlertProvider>{children}</AlertProvider>
+          </QueryClientProvider>
+        </AppProvider>
       </body>
     </html>
   );

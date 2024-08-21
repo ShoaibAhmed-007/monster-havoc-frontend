@@ -5,9 +5,12 @@ import { motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
+import { useAppContext } from "../context/AppContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { userData } = useAppContext();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,7 +18,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="bg-[rgba(0,0,0,0.8)] text-white py-4 px-4 md:px-8 fixed top-0 w-full z-50">
+      <nav className="bg-[rgba(0,0,0,0.8)] text-white py-4 px-4 md:px-8 relative top-0 w-full z-50">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo and Menu Links */}
           <div className="flex justify-between items-center w-full md:w-auto">
