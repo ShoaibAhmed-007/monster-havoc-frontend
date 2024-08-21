@@ -1,19 +1,24 @@
 "use client";
-
+import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
 import { useAppContext } from "../context/AppContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { userData } = useAppContext();
+  const { userData, logoutUser } = useAppContext();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -54,29 +59,77 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Signup and Login Buttons */}
-          <div className="hidden md:flex justify-around items-center gap-4">
-            <Link href="/Pages/auth/signup">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", damping: 10 }}
-                className="rounded-lg border-2 border-white px-6 py-2 hover:text-primary hover:border-primary"
+          {/* Profile Info or Signup/Login Buttons */}
+          {userData ? (
+            <div className="relative">
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={toggleDropdown}
               >
-                Signup
-              </motion.button>
-            </Link>
-            <Link href="/Pages/auth/login">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", damping: 10 }}
-                className="rounded-lg border-2 border-white px-6 py-2 hover:text-primary hover:border-primary"
-              >
-                Login
-              </motion.button>
-            </Link>
-          </div>
+                <Image
+                  src={userData.profilePic || "/images/default-profile.png"}
+                  alt="profile pic"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <span className="ml-2">{userData.name}</span>
+                <FiChevronDown size={24} className="ml-2" />
+              </div>
+
+              {/* Dropdown Menu */}
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-[rgba(0,0,0,0.9)] text-white rounded-lg shadow-lg py-2">
+                  <Link href="/Pages/profile/settings">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", damping: 10 }}
+                      className="px-4 py-2 hover:bg-[rgba(255,255,255,0.1)] cursor-pointer"
+                      onClick={toggleDropdown}
+                    >
+                      Profile Settings
+                    </motion.div>
+                  </Link>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", damping: 10 }}
+                    className="px-4 py-2 hover:bg-[rgba(255,255,255,0.1)] cursor-pointer"
+                    onClick={() => {
+                      toggleDropdown();
+                      logoutUser();
+                    }}
+                  >
+                    Logout
+                  </motion.div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="hidden md:flex justify-around items-center gap-4">
+              <Link href="/Pages/auth/signup">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", damping: 10 }}
+                  className="rounded-lg border-2 border-white px-6 py-2 hover:text-primary hover:border-primary"
+                >
+                  Signup
+                </motion.button>
+              </Link>
+              <Link href="/Pages/auth/login">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", damping: 10 }}
+                  className="rounded-lg border-2 border-white px-6 py-2 hover:text-primary hover:border-primary"
+                >
+                  Login
+                </motion.button>
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Dropdown Menu for small screens */}
@@ -96,30 +149,33 @@ function Navbar() {
             >
               Latest Updates
             </Link>
-            <div className="flex flex-col items-center gap-4 mt-4">
-              <Link href="/Pages/auth/signup">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ type: "spring", damping: 10 }}
-                  className="rounded-full border-2 border-white px-8 py-2 hover:text-primary hover:border-primary"
-                  onClick={toggleMenu}
-                >
-                  Signup
-                </motion.button>
-              </Link>
-              <Link href="/Pages/auth/login">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ type: "spring", damping: 10 }}
-                  className="rounded-full border-2 border-white px-8 py-2 hover:text-primary hover:border-primary"
-                  onClick={toggleMenu}
-                >
-                  Login
-                </motion.button>
-              </Link>
-            </div>
+            {/* Conditional Rendering of Signup/Login Buttons */}
+            {!userData && (
+              <div className="flex flex-col items-center gap-4 mt-4">
+                <Link href="/Pages/auth/signup">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", damping: 10 }}
+                    className="rounded-full border-2 border-white px-8 py-2 hover:text-primary hover:border-primary"
+                    onClick={toggleMenu}
+                  >
+                    Signup
+                  </motion.button>
+                </Link>
+                <Link href="/Pages/auth/login">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", damping: 10 }}
+                    className="rounded-full border-2 border-white px-8 py-2 hover:text-primary hover:border-primary"
+                    onClick={toggleMenu}
+                  >
+                    Login
+                  </motion.button>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </nav>

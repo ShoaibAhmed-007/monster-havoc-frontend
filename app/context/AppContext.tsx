@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -30,6 +31,7 @@ export const useAppContext = () => {
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const router = useRouter();
   const [userData, setUserData] = useState<UserDataType | null>(null);
 
   useEffect(() => {
@@ -41,10 +43,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       const decodedToken = jwtDecode(token);
       getUserData(decodedToken.userID);
     }
-
-    // if (userDataFromLS) {
-    //   setUserData(userDataFromLS);
-    // }
   }, []);
 
   async function getUserData(_id: string) {
@@ -63,7 +61,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       const data = response.data;
 
       // Optionally, you can log or use the data here
-      console.log(data);
+
       setUserData(data.userData); // Return data if needed elsewhere
     } catch (error) {
       // Axios error object has more information about the error
@@ -96,10 +94,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }
 
-  function logoutUser() {
-    localStorage.clear();
-    setUserData(null);
-  }
+  const logoutUser = async () => {
+    try {
+      // Make a GET request to your logout endpoint
+      const response = await axios.get(`${baseURL}/api/logout`);
+
+      if (response.status === 200) {
+        // Successfully logged out, clear the user data and redirect to the login page
+        localStorage.clear();
+        setUserData(null); // Clear user data in your context
+        router.push("/Pages/auth/login"); // Redirect to the login page
+      } else {
+        throw new Error("Failed to log out");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <AppContext.Provider
