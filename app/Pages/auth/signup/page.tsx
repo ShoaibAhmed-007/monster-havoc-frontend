@@ -4,7 +4,9 @@ import Signup from "@/app/components/Forms/Signup";
 function page() {
   return (
     <>
-      <Signup />
+      <div className="h-[100vh] flex justify-center items-center">
+        <Signup />
+      </div>
     </>
   );
 }

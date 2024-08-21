@@ -4,7 +4,9 @@ import Login from "@/app/components/Forms/Login";
 function page() {
   return (
     <>
-      <Login />
+      <div className="h-[100vh] flex justify-center items-center">
+        <Login />
+      </div>
     </>
   );
 }

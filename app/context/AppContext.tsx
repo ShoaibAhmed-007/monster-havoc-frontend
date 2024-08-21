@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type AppContextType = {
   userData: UserDataType | null;
@@ -29,12 +33,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     console.log("UserData", userData);
-    const userDataFromLS = JSON.parse(localStorage.getItem("userData")!);
+    const token = Cookies.get("jwt"); // or wherever your token is stored
 
-    if (userDataFromLS) {
-      setUserData(userDataFromLS);
+    if (token) {
+      console.log("here");
+      const decodedToken = jwtDecode(token);
+      getUserData(decodedToken.userID);
     }
+
+    // if (userDataFromLS) {
+    //   setUserData(userDataFromLS);
+    // }
   }, []);
+
+  async function getUserData(_id: string) {
+    try {
+      const response = await fetch(`${baseURL}/api/getUserData`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setUserData(data.userData); // Return data if needed elsewhere
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
 
   function loginUser(userData: UserDataType) {
     if (userData) {
