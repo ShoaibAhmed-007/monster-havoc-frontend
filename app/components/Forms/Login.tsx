@@ -17,6 +17,7 @@ const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const loginUser = async (userLogin: userLoginType) => {
   const response = await fetch(`${baseURL}/api/login`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
