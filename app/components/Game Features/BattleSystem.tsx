@@ -1,6 +1,11 @@
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
+import { useAppContext } from "@/app/context/AppContext";
+import { Scale } from "lucide-react";
 
 function BattleSystem() {
+  const { userData } = useAppContext();
   return (
     <div className="flex justify-center items-center bg-gray-900 p-6 rounded-lg shadow-lg">
       <div className="w-[90%] gap-10 flex justify-center items-center bg-black bg-opacity-50 py-8 px-20 rounded-2xl text-white">
@@ -18,6 +23,18 @@ function BattleSystem() {
             affecting your experience points and monster status. Master the art
             of combat to rise as the ultimate tamer!
           </p>
+          {userData ? (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", damping: 10 }}
+              className="rounded-lg border-2 border-white px-6 py-2 hover:text-red-400 hover:border-red-400"
+            >
+              Go to Battle
+            </motion.button>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

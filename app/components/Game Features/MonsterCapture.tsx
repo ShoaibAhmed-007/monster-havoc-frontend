@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
 
 function MonsterCapture() {
   return (
@@ -15,6 +17,14 @@ function MonsterCapture() {
             train and battle with your monsters. Expand your team and become the
             ultimate tamer!
           </p>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", damping: 10 }}
+            className="rounded-lg border-2 border-white px-6 py-2 hover:text-yellow-400 hover:border-yellow-400"
+          >
+            Go to Wilderness
+          </motion.button>
         </div>
         <img
           className="border-4 border-yellow-400 h-auto w-[50%] rounded-2xl shadow-lg"
