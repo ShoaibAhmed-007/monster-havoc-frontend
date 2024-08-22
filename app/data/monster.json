@@ -1,7 +1,7 @@
 [
   {
     "name": "Pyrofang",
-    "img": "/images/monsters/Pyrofang.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/fu1uvepl2ob5qsph7j2i",
     "type": "Fire",
     "description": "A fierce, wolf-like monster with flames erupting from its fur. Its eyes glow red, and it leaves a trail of embers wherever it goes.",
     "abilities": ["Blazing Claw", "Inferno Howl"],
@@ -15,7 +15,7 @@
   },
   {
     "name": "Aquaflare",
-    "img": "/images/monsters/Aquaflare.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/alvlfutduzwbjtawpvud",
     "type": "Water/Fire",
     "description": "A rare hybrid monster that blends the power of water and fire. Its body shimmers with a mix of blue and orange flames.",
     "abilities": ["Steam Burst", "Tidal Blaze"],
@@ -29,7 +29,7 @@
   },
   {
     "name": "Thornroot",
-    "img": "/images/monsters/Thornroot.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/jcwvvo2i9s7rx2kquktl",
     "type": "Grass",
     "description": "A plant-based monster resembling a walking tree, with vines that lash out at enemies. Its bark-covered body provides strong defense.",
     "abilities": ["Vine Whip", "Rooted Defense"],
@@ -43,7 +43,7 @@
   },
   {
     "name": "Shadowclaw",
-    "img": "/images/monsters/Shadowclaw.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/wdtxqcdkrbhcjkletwcw",
     "type": "Dark",
     "description": "A stealthy, panther-like monster that can blend into the shadows. Its piercing green eyes can paralyze foes with fear.",
     "abilities": ["Shadow Strike", "Fear Gaze"],
@@ -58,7 +58,7 @@
 
   {
     "name": "Crystalis",
-    "img": "/images/monsters/Crystalis.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/yy998dh0peedxcwfdke1",
     "type": "Ice",
     "description": "A majestic, crystalline monster with shimmering wings made of ice. It can create powerful ice storms to freeze its enemies.",
     "abilities": ["Frost Breath", "Ice Shard"],
@@ -72,7 +72,7 @@
   },
   {
     "name": "Boulderox",
-    "img": "/images/monsters/Boulderox.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/tiipdznjwli8ktqexrqc",
     "type": "Rock",
     "description": "A massive, ox-like monster with a body made of solid rock. It’s incredibly strong and difficult to bring down.",
     "abilities": ["Earthquake", "Stonewall"],
@@ -87,7 +87,7 @@
 
   {
     "name": "Venomtail",
-    "img": "/images/monsters/Venomtail.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/vbck3stl2snjyqqovopr",
     "type": "Poison",
     "description": "A scorpion-like monster with a deadly stinger. It’s capable of injecting powerful venom into its foes, weakening them over time.",
     "abilities": ["Toxic Sting", "Venomous Aura"],
@@ -101,7 +101,7 @@
   },
   {
     "name": "Solaris",
-    "img": "/images/monsters/Solaris.jpeg",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/lfu4np2dtezoigb1zuij",
     "type": "Light",
     "description": "A radiant, lion-like monster that embodies the power of the sun. It can blind its enemies with intense light and heal its allies.",
     "abilities": ["Solar Flare", "Radiant Heal"],
