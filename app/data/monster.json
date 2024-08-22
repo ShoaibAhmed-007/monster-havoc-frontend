@@ -11,7 +11,9 @@
       "defense": 60,
       "speed": 90
     },
-    "evolution": "Infernowolf at level 20"
+    "evolution": "Infernowolf at level 20",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
   {
     "name": "Aquaflare",
@@ -25,7 +27,9 @@
       "defense": 70,
       "speed": 60
     },
-    "evolution": "Steamflame at level 25"
+    "evolution": "Steamflame at level 25",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
   {
     "name": "Thornroot",
@@ -39,7 +43,9 @@
       "defense": 95,
       "speed": 40
     },
-    "evolution": "Briarwood at level 18"
+    "evolution": "Briarwood at level 18",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
   {
     "name": "Shadowclaw",
@@ -53,7 +59,9 @@
       "defense": 50,
       "speed": 95
     },
-    "evolution": "Nightfang at level 22"
+    "evolution": "Nightfang at level 22",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
 
   {
@@ -68,7 +76,9 @@
       "defense": 80,
       "speed": 65
     },
-    "evolution": "Glaciara at level 20"
+    "evolution": "Glaciara at level 20",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
   {
     "name": "Boulderox",
@@ -82,7 +92,9 @@
       "defense": 90,
       "speed": 30
     },
-    "evolution": "Terrarox at level 25"
+    "evolution": "Terrarox at level 25",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
 
   {
@@ -97,7 +109,9 @@
       "defense": 60,
       "speed": 70
     },
-    "evolution": "Venomcrusher at level 21"
+    "evolution": "Venomcrusher at level 21",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   },
   {
     "name": "Solaris",
@@ -111,6 +125,40 @@
       "defense": 70,
       "speed": 80
     },
-    "evolution": "Solaraion at level 24"
+    "evolution": "Solaraion at level 24",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
+  },
+  {
+    "name": "Stormrider",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/wu953mlvmaw899t7ihpg",
+    "type": "Electric",
+    "description": "A mystical, dragon-like monster with dark, crackling lightning patterns across its body.",
+    "abilities": ["Thunderstrike", "Lightning Surge"],
+    "stats": {
+      "health": 85,
+      "attack": 95,
+      "defense": 70,
+      "speed": 85
+    },
+    "evolution": "Tempestwing at level 30",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
+  },
+  {
+    "name": "Glimmerfang",
+    "img": "https://res.cloudinary.com/dabn9e3ds/image/upload/f_auto,q_auto/ip8iwzyhmxrcsy7hbp9x",
+    "type": "Light",
+    "description": "A serpentine creature with iridescent scales that catch faint light, blending into the dark.",
+    "abilities": ["Radiant Slash", "Illusionary Veil"],
+    "stats": {
+      "health": 75,
+      "attack": 90,
+      "defense": 60,
+      "speed": 95
+    },
+    "evolution": "Luminfang at level 28",
+    "createdAt": { "$date": "2024-08-23T10:00:00Z" },
+    "updatedAt": { "$date": "2024-08-23T10:00:00Z" }
   }
 ]

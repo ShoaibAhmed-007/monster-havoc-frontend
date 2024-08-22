@@ -24,6 +24,9 @@ const redirects = {
       },
     ];
   },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 };
 
 export default redirects;

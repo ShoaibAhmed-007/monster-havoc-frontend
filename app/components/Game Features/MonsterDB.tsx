@@ -1,11 +1,50 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "../Slider";
 import { motion } from "framer-motion";
-import monsters from "../../data/monster";
+import { getAllMonsters } from "../apiCalls/getAllMonsters";
 import Link from "next/link";
+import axios, { AxiosResponse } from "axios";
+
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+export interface Monster {
+  _id: string;
+  name: string;
+  type: string; // e.g., "Fire", "Water", "Electric"
+  abilities: string[]; // List of abilities
+  level: number;
+  healthPoints: number;
+  attackPower: number;
+  defensePower: number;
+  speed: number;
+  createdAt: Date;
+  updatedAt: Date;
+  img: string;
+}
 
 function MonsterDB() {
+  const [monsters, setMonsters] = useState<Monster[]>([]);
+
+  useEffect(() => {
+    getAllMonsters();
+  }, []);
+
+  async function getAllMonsters() {
+    try {
+      const response = await axios.get(`${baseURL}/api/getAllMonsters`, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        setMonsters(response.data.monsters);
+      } else {
+        throw new Error("An error occurred while fetching monsters");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="flex justify-center items-center bg-gray-900 p-6 rounded-lg shadow-lg">
       <div className="w-[90%] gap-10 flex justify-center items-center bg-black bg-opacity-50 py-8 px-20 rounded-2xl text-white">

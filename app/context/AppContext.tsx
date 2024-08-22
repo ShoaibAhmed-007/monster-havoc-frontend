@@ -96,7 +96,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const logoutUser = async () => {
     try {
       // Make a GET request to your logout endpoint
-      const response = await axios.get(`${baseURL}/api/logout`);
+      const response = await axios.get(`${baseURL}/api/logout`, {
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
         // Successfully logged out, clear the user data and redirect to the login page

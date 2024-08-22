@@ -4,8 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
+import { Monster } from "./Game Features/MonsterDB";
 
-function Slider({ data }: { data: { img: string; name: string }[] }) {
+function Slider({ data }: { data: Monster[] }) {
   return (
     <Swiper
       spaceBetween={50}
