@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Pyrofang",
+    "img": "/images/monsters/Pyrofang.jpeg",
+    "type": "Fire",
+    "description": "A fierce, wolf-like monster with flames erupting from its fur. Its eyes glow red, and it leaves a trail of embers wherever it goes.",
+    "abilities": ["Blazing Claw", "Inferno Howl"],
+    "stats": {
+      "health": 70,
+      "attack": 85,
+      "defense": 60,
+      "speed": 90
+    },
+    "evolution": "Infernowolf at level 20"
+  },
+  {
+    "name": "Aquaflare",
+    "img": "/images/monsters/Aquaflare.jpeg",
+    "type": "Water/Fire",
+    "description": "A rare hybrid monster that blends the power of water and fire. Its body shimmers with a mix of blue and orange flames.",
+    "abilities": ["Steam Burst", "Tidal Blaze"],
+    "stats": {
+      "health": 80,
+      "attack": 75,
+      "defense": 70,
+      "speed": 60
+    },
+    "evolution": "Steamflame at level 25"
+  },
+  {
+    "name": "Thornroot",
+    "img": "/images/monsters/Thornroot.jpeg",
+    "type": "Grass",
+    "description": "A plant-based monster resembling a walking tree, with vines that lash out at enemies. Its bark-covered body provides strong defense.",
+    "abilities": ["Vine Whip", "Rooted Defense"],
+    "stats": {
+      "health": 90,
+      "attack": 60,
+      "defense": 95,
+      "speed": 40
+    },
+    "evolution": "Briarwood at level 18"
+  },
+  {
+    "name": "Shadowclaw",
+    "img": "/images/monsters/Shadowclaw.jpeg",
+    "type": "Dark",
+    "description": "A stealthy, panther-like monster that can blend into the shadows. Its piercing green eyes can paralyze foes with fear.",
+    "abilities": ["Shadow Strike", "Fear Gaze"],
+    "stats": {
+      "health": 65,
+      "attack": 85,
+      "defense": 50,
+      "speed": 95
+    },
+    "evolution": "Nightfang at level 22"
+  },
+
+  {
+    "name": "Crystalis",
+    "img": "/images/monsters/Crystalis.jpeg",
+    "type": "Ice",
+    "description": "A majestic, crystalline monster with shimmering wings made of ice. It can create powerful ice storms to freeze its enemies.",
+    "abilities": ["Frost Breath", "Ice Shard"],
+    "stats": {
+      "health": 75,
+      "attack": 70,
+      "defense": 80,
+      "speed": 65
+    },
+    "evolution": "Glaciara at level 20"
+  },
+  {
+    "name": "Boulderox",
+    "img": "/images/monsters/Boulderox.jpeg",
+    "type": "Rock",
+    "description": "A massive, ox-like monster with a body made of solid rock. It’s incredibly strong and difficult to bring down.",
+    "abilities": ["Earthquake", "Stonewall"],
+    "stats": {
+      "health": 100,
+      "attack": 80,
+      "defense": 90,
+      "speed": 30
+    },
+    "evolution": "Terrarox at level 25"
+  },
+
+  {
+    "name": "Venomtail",
+    "img": "/images/monsters/Venomtail.jpeg",
+    "type": "Poison",
+    "description": "A scorpion-like monster with a deadly stinger. It’s capable of injecting powerful venom into its foes, weakening them over time.",
+    "abilities": ["Toxic Sting", "Venomous Aura"],
+    "stats": {
+      "health": 70,
+      "attack": 80,
+      "defense": 60,
+      "speed": 70
+    },
+    "evolution": "Venomcrusher at level 21"
+  },
+  {
+    "name": "Solaris",
+    "img": "/images/monsters/Solaris.jpeg",
+    "type": "Light",
+    "description": "A radiant, lion-like monster that embodies the power of the sun. It can blind its enemies with intense light and heal its allies.",
+    "abilities": ["Solar Flare", "Radiant Heal"],
+    "stats": {
+      "health": 85,
+      "attack": 75,
+      "defense": 70,
+      "speed": 80
+    },
+    "evolution": "Solaraion at level 24"
+  }
+]
