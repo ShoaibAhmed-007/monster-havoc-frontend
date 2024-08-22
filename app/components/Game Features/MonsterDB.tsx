@@ -3,6 +3,7 @@ import React from "react";
 import Slider from "../Slider";
 import { motion } from "framer-motion";
 import monsters from "../../data/monster";
+import Link from "next/link";
 
 function MonsterDB() {
   return (
@@ -19,14 +20,16 @@ function MonsterDB() {
             and master the art of taming. Explore and catalog every monster to
             become the ultimate tamer!
           </p>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", damping: 10 }}
-            className="rounded-lg border-2 border-white px-6 py-2 hover:text-green-400 hover:border-green-400"
-          >
-            Go to Monsters
-          </motion.button>
+          <Link href="/Pages/monsters">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", damping: 10 }}
+              className="rounded-lg border-2 border-white px-6 py-2 hover:text-green-400 hover:border-green-400"
+            >
+              Go to Monsters
+            </motion.button>
+          </Link>
         </div>
         <Slider data={monsters} />
       </div>
