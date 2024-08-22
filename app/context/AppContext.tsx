@@ -35,12 +35,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userData, setUserData] = useState<UserDataType | null>(null);
 
   useEffect(() => {
-    console.log("UserData", userData);
     const token = Cookies.get("jwt"); // or wherever your token is stored
 
     if (token) {
-      console.log("here");
       const decodedToken = jwtDecode(token);
+      //@ts-ignore
       getUserData(decodedToken.userID);
     }
   }, []);
