@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useAppContext } from "@/app/context/AppContext";
 
 function MonsterCapture() {
-  const userData = useAppContext();
+  const { userData } = useAppContext();
   return (
     <div className="flex justify-center items-center bg-gray-900 p-6 rounded-lg shadow-lg">
       <div className="w-[90%] gap-10 flex justify-center items-center py-8 px-20 bg-black bg-opacity-50 rounded-2xl text-white">
