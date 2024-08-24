@@ -8,6 +8,7 @@ import { object, string } from "yup";
 import { useFormik } from "formik";
 import { useAppContext, UserDataType } from "@/app/context/AppContext";
 import { useRouter } from "next/navigation";
+import { useAlert } from "@/app/context/AlertContext";
 
 type userLoginType = {
   email: string;
@@ -27,7 +28,7 @@ const postUserLogin = async (userLogin: userLoginType) => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to create user");
+    throw new Error("Failed to login user");
   }
 
   return response.json();
@@ -50,6 +51,8 @@ function Login() {
 
   const { loginUser } = useAppContext();
 
+  const { showAlert } = useAlert();
+
   const router = useRouter();
 
   const formik = useFormik({
@@ -66,8 +69,9 @@ function Login() {
           loginUser(response);
           router.push("/Pages/index");
         },
-        onError: () => {
+        onError: (error: any) => {
           setSubmitting(false);
+          showAlert(error.message, "danger");
         },
       });
     },

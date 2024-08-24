@@ -24,58 +24,30 @@ export type monsterType = {
 function page() {
   const [monsters, setMonsters] = useState<monsterType[] | null>(null);
   const [lockedMonsters, setLockedMonsters] = useState<monsterType[]>([]);
-  async function getUserMonsters() {
+  async function getAllMonsters() {
     try {
-      const response = await axios.get(
+      const userMonstersResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getUserMonsters`,
         { withCredentials: true }
       );
-      console.log(response.data.monsters);
-      setMonsters(response.data.monsters);
-    } catch (error: any) {
-      if (error.response) {
-        // Server responded with a status other than 2xx
-        console.error("Error response:", error.response);
-        // Handle specific error codes if needed
-        if (error.response.status === 404) {
-          console.error("Monsters not found.");
-        } else if (error.response.status === 500) {
-          console.error("Server error. Please try again later.");
-        } else {
-          console.error("An error occurred:", error.response.data.message);
-        }
-      } else if (error.request) {
-        // Request was made but no response was received
-        console.error("No response received:", error.request);
-        console.error("Please check your network connection.");
-      } else {
-        // Something else caused the error
-        console.error("Error:", error.message);
-      }
-    }
-  }
 
-  async function getAllMonsters() {
-    try {
-      const response = await axios.get(
+      setMonsters(userMonstersResponse.data.monsters);
+
+      const allMonstersResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getAllMonsters`,
         { withCredentials: true }
       );
-      let locked = response.data.monsters.filter((monster: monsterType) => {
-        // Check if this monster's ID exists in the monsters array
-        const isLocked = !monsters?.some((userMonst: monsterType) => {
-          const match = userMonst._id === monster._id;
-          console.log(
-            `Comparing ${userMonst._id} with ${monster._id}: ${match}`
+
+      let locked = allMonstersResponse.data.monsters.filter(
+        (monster: monsterType) => {
+          // Check if this monster's ID exists in the monsters array
+          const isLocked = !monsters?.some(
+            (userMonst: monsterType) => userMonst._id === monster._id
           );
-          return match;
-        });
+          return isLocked;
+        }
+      );
 
-        console.log(`Monster ID: ${monster._id}, isLocked: ${isLocked}`);
-        return isLocked;
-      });
-
-      console.log(locked);
       setLockedMonsters(locked);
     } catch (error: any) {
       if (error.response) {
@@ -101,28 +73,33 @@ function page() {
   }
 
   useEffect(() => {
-    if (!monsters) {
-      getUserMonsters();
-      getAllMonsters();
-    }
-  }, [monsters]);
+    getAllMonsters();
+  }, []);
 
   return (
     <>
-      <div className="flex justify-center items-center py-10">
-        <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center">
-          <div className="bg-black bg-opacity-70 h-96 w-96">
-            <div>
-              <h1>Your Monsters</h1>
-              {monsters?.map((monster: monsterType, idx) => {
-                return <Card monster={monster} />;
-              })}
+      <div className="flex justify-center items-center py-10 w-full">
+        <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
+          <div className="bg-black bg-opacity-70 p-5">
+            <div className="h-full w-full">
+              <h1 className="text-xl text-center font-bold my-3">
+                Your Monsters
+              </h1>
+              <div className="grid grid-cols-4">
+                {monsters?.map((monster: monsterType, idx) => {
+                  return <Card monster={monster} />;
+                })}
+              </div>
             </div>
             <div>
-              <h1>Locked Monsters</h1>
-              {lockedMonsters.map((monster: monsterType, idx) => {
-                return <Card monster={monster} />;
-              })}
+              <h1 className="text-xl text-center font-bold my-3">
+                Locked Monsters
+              </h1>
+              <div className="grid grid-cols-4 gap-5">
+                {lockedMonsters?.map((monster: monsterType, idx) => {
+                  return <Card monster={monster} />;
+                })}
+              </div>
             </div>
           </div>
         </div>
