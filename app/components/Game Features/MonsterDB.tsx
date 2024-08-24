@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "../Slider";
 import { motion } from "framer-motion";
 import { getAllMonsters } from "../apiCalls/getAllMonsters";
+import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
 import axios, { AxiosResponse } from "axios";
 
@@ -24,6 +25,7 @@ export interface Monster {
 }
 
 function MonsterDB() {
+  const userData = useAppContext();
   const [monsters, setMonsters] = useState<Monster[]>([]);
 
   useEffect(() => {
@@ -59,16 +61,20 @@ function MonsterDB() {
             and master the art of taming. Explore and catalog every monster to
             become the ultimate tamer!
           </p>
-          <Link href="/Pages/monsters">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", damping: 10 }}
-              className="rounded-lg border-2 border-white px-6 py-2 hover:text-green-400 hover:border-green-400"
-            >
-              Go to Monsters
-            </motion.button>
-          </Link>
+          {userData ? (
+            <Link href="/Pages/monsters">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", damping: 10 }}
+                className="rounded-lg border-2 border-white px-6 py-2 hover:text-green-400 hover:border-green-400"
+              >
+                Go to Monsters
+              </motion.button>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
         <Slider data={monsters} />
       </div>
