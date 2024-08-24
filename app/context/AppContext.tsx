@@ -89,7 +89,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   function loginUser(userData: UserDataType) {
     if (userData) {
       setUserData(userData);
-      localStorage.setItem("userData", JSON.stringify(userData));
     }
   }
 
@@ -102,7 +101,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (response.status === 200) {
         // Successfully logged out, clear the user data and redirect to the login page
-        localStorage.clear();
+
         setUserData(null); // Clear user data in your context
         router.push("/Pages/auth/login"); // Redirect to the login page
       } else {
