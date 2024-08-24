@@ -7,6 +7,7 @@ import "swiper/css";
 import { Monster } from "./Game Features/MonsterDB";
 
 function Slider({ data }: { data: Monster[] }) {
+  console.log(data);
   return (
     <Swiper
       spaceBetween={50}

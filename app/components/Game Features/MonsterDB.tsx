@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Slider from "../Slider";
 import { motion } from "framer-motion";
-import { getAllMonsters } from "../apiCalls/getAllMonsters";
+// import { getAllMonsters } from "../apiCalls/getAllMonsters";
 import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
