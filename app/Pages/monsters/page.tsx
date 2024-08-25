@@ -25,6 +25,10 @@ export type monsterType = {
 function page() {
   const [monsters, setMonsters] = useState<monsterType[] | null>(null);
   const [lockedMonsters, setLockedMonsters] = useState<monsterType[]>([]);
+  const [allMonsters, setAllMonsters] = useState<monsterType[]>([]);
+  const [showGenerateComponent, setShowGenerateComponent] =
+    useState<boolean>(false);
+
   async function getAllMonsters() {
     try {
       const userMonstersResponse = await axios.get(
@@ -38,6 +42,8 @@ function page() {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getAllMonsters`,
         { withCredentials: true }
       );
+
+      setAllMonsters(allMonstersResponse.data.monsters);
 
       let locked = allMonstersResponse.data.monsters.filter(
         (monster: monsterType) => {
@@ -78,10 +84,16 @@ function page() {
     getAllMonsters();
   }, []);
 
+  useEffect(() => {
+    if (monsters?.length === 0) {
+      setShowGenerateComponent(true);
+    }
+  }, [allMonsters, monsters]);
+
   return (
     <>
       <div className="flex justify-center items-center py-10 w-full">
-        <GenerateRandomMonster></GenerateRandomMonster>
+        {showGenerateComponent && <GenerateRandomMonster />}
 
         <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
           <div className="bg-black bg-opacity-70 p-5">
