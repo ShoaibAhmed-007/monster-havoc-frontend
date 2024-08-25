@@ -2,6 +2,7 @@
 import Card from "@/app/components/Card";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import GenerateRandomMonster from "@/app/components/GenerateRandomMonster";
 
 type statsType = {
   attack: Number;
@@ -80,6 +81,8 @@ function page() {
   return (
     <>
       <div className="flex justify-center items-center py-10 w-full">
+        <GenerateRandomMonster></GenerateRandomMonster>
+
         <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
           <div className="bg-black bg-opacity-70 p-5">
             <div className="h-full w-full">
