@@ -85,15 +85,23 @@ function page() {
   }, []);
 
   useEffect(() => {
-    if (monsters?.length === 0) {
+    if (monsters?.length === 0 && allMonsters.length > 0) {
       setShowGenerateComponent(true);
     }
   }, [allMonsters, monsters]);
 
   return (
     <>
-      <div className="flex justify-center items-center py-10 w-full">
-        {showGenerateComponent && <GenerateRandomMonster />}
+      <div className="flex justify-center items-center py-10 w-full z-10">
+        {showGenerateComponent && (
+          <div className="fixed flex justify-center items-center bg-[#00000093] top-0 bottom-0 right-0 left-0 h-screen w-full z-50">
+            <GenerateRandomMonster
+              allMonsters={allMonsters}
+              closeShowGenerateComponent={() => setShowGenerateComponent(false)}
+              getAllMonsters={getAllMonsters}
+            />
+          </div>
+        )}
 
         <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
           <div className="bg-black bg-opacity-70 p-5">
