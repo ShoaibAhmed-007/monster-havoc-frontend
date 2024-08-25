@@ -38,30 +38,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = Cookies.get("jwt"); // or wherever your token is stored
 
     if (token) {
-      const decodedToken = jwtDecode(token);
-      //@ts-ignore
-      getUserData(decodedToken.userID);
+      getUserData();
     }
   }, []);
 
-  async function getUserData(_id: string) {
+  async function getUserData() {
     try {
-      const response = await axios.post(
-        `${baseURL}/api/getUserData`,
-        { _id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${baseURL}/api/getUserData`, {
+        withCredentials: true,
+      });
 
       // No need to check for response.ok, as axios will throw an error for non-2xx status codes
       const data = response.data;
 
       // Optionally, you can log or use the data here
 
-      setUserData(data.userData); // Return data if needed elsewhere
+      setUserData(data.userData.user); // Return data if needed elsewhere
     } catch (error) {
       // Axios error object has more information about the error
       if (axios.isAxiosError(error)) {

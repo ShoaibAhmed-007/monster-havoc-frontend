@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "../Slider";
 import { motion } from "framer-motion";
-// import { getAllMonsters } from "../apiCalls/getAllMonsters";
+
 import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
 import axios from "axios";
