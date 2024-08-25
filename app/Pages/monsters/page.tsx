@@ -104,7 +104,7 @@ function page() {
         )}
 
         <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
-          <div className="bg-black bg-opacity-70 p-5">
+          <div className="bg-black bg-opacity-70 p-5 min-h-[50vh]">
             <div className="h-full w-full">
               <h1 className="text-xl text-center font-bold my-3">
                 Your Monsters
