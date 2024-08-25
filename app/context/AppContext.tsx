@@ -53,7 +53,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
       // Optionally, you can log or use the data here
 
-      setUserData(data.userData.user); // Return data if needed elsewhere
+      setUserData(data.userData); // Return data if needed elsewhere
     } catch (error) {
       // Axios error object has more information about the error
       if (axios.isAxiosError(error)) {
