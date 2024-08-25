@@ -41,9 +41,10 @@ function page() {
       let locked = allMonstersResponse.data.monsters.filter(
         (monster: monsterType) => {
           // Check if this monster's ID exists in the monsters array
-          const isLocked = !monsters?.some(
+          const isLocked = !userMonstersResponse.data.monsters?.some(
             (userMonst: monsterType) => userMonst._id === monster._id
           );
+
           return isLocked;
         }
       );
