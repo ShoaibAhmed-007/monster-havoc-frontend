@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { io, Socket } from "socket.io-client";
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -10,6 +10,8 @@ type AppContextType = {
   userData: UserDataType | null;
   loginUser: (userData: UserDataType) => void;
   logoutUser: () => void;
+  socket: Socket | null;
+  isConnected: boolean;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -34,6 +36,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const [userData, setUserData] = useState<UserDataType | null>(null);
 
+  //Socket states
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+
   useEffect(() => {
     const token = Cookies.get("jwt");
 
@@ -41,6 +47,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       getUserData();
     }
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      const newSocket = io(baseURL!, {
+        withCredentials: true,
+        transports: ["websocket"],
+      });
+
+      newSocket.on("connect", () => {
+        setIsConnected(true);
+        console.log("Connected to the server");
+      });
+
+      newSocket.on("disconnect", () => {
+        setIsConnected(false);
+        console.log("Disconnected from the server");
+      });
+
+      setSocket(newSocket);
+
+      return () => {
+        newSocket.close();
+      };
+    }
+  }, [userData]);
 
   async function getUserData() {
     try {
@@ -111,6 +142,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         userData: userData,
         loginUser: loginUser,
         logoutUser: logoutUser,
+        //Socket data
+        socket,
+        isConnected,
       }}
     >
       {children}
