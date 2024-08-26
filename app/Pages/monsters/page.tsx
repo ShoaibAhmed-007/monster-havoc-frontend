@@ -36,7 +36,11 @@ function page() {
         { withCredentials: true }
       );
 
-      setMonsters(userMonstersResponse.data.monsters);
+      let userMonsters: monsterType[] = [];
+      userMonstersResponse.data.monsters.forEach((evolObj: any) => {
+        userMonsters.push(evolObj.monster as monsterType);
+      });
+      setMonsters(userMonsters);
 
       const allMonstersResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getAllMonsters`,
@@ -110,7 +114,7 @@ function page() {
                 Your Monsters
               </h1>
               <div className="grid grid-cols-4">
-                {monsters?.map((monster: monsterType, idx) => {
+                {monsters?.map((monster) => {
                   return <Card monster={monster} />;
                 })}
               </div>

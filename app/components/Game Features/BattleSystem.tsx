@@ -3,8 +3,25 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "@/app/context/AppContext";
 import { Scale } from "lucide-react";
+import axios from "axios";
 
 function BattleSystem() {
+  const handleMatchMaking = async function () {
+    try {
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/joinMatchMakingQueue`,
+        {},
+        { withCredentials: true }
+      );
+      if (result) {
+        console.log(result);
+      } else {
+        throw new Error("Error occured add to queue!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const { userData } = useAppContext();
   return (
     <div className="flex justify-center items-center bg-gray-900 p-6 rounded-lg shadow-lg">
@@ -28,9 +45,10 @@ function BattleSystem() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", damping: 10 }}
+              onClick={() => handleMatchMaking()}
               className="rounded-lg border-2 border-white px-6 py-2 hover:text-red-400 hover:border-red-400"
             >
-              Go to Battle
+              Start Matchmaking
             </motion.button>
           ) : (
             <></>
