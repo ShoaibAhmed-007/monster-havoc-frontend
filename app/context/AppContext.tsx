@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -10,7 +16,7 @@ type AppContextType = {
   userData: UserDataType | null;
   loginUser: (userData: UserDataType) => void;
   logoutUser: () => void;
-  socket: Socket | null;
+  socket: React.MutableRefObject<Socket | null>;
   isConnected: boolean;
 };
 
@@ -36,8 +42,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const [userData, setUserData] = useState<UserDataType | null>(null);
 
-  //Socket states
-  const [socket, setSocket] = useState<Socket | null>(null);
+  // Socket ref
+  const socket = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
@@ -50,27 +56,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (userData) {
-      const newSocket = io(`${baseURL!}`, {
+      socket.current = io(`${baseURL!}/`, {
         withCredentials: true,
         transports: ["websocket"],
       });
 
-      newSocket.on("connect", () => {
+      socket.current.on("connect", () => {
         setIsConnected(true);
         console.log("Connected to the server");
 
-        newSocket?.emit("register_player", userData._id);
+        socket.current?.emit("register_player", userData._id);
       });
 
-      newSocket.on("disconnect", () => {
+      socket.current.on("disconnect", () => {
         setIsConnected(false);
         console.log("Disconnected from the server");
       });
 
-      setSocket(newSocket);
-
       return () => {
-        newSocket.close();
+        socket.current?.close();
       };
     }
   }, [userData]);
@@ -81,28 +85,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         withCredentials: true,
       });
 
-      // No need to check for response.ok, as axios will throw an error for non-2xx status codes
       const data = response.data;
-
-      // Optionally, you can log or use the data here
-
-      setUserData(data.userData); // Return data if needed elsewhere
+      setUserData(data.userData);
     } catch (error) {
-      // Axios error object has more information about the error
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message);
-        // Optionally, handle different types of Axios errors here
         if (error.response) {
-          // The request was made, and the server responded with a status code
-          // outside the range of 2xx
           console.error("Response error:", error.response.data);
           console.error("Response status:", error.response.status);
           console.error("Response headers:", error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
           console.error("No response received:", error.request);
         } else {
-          // Something happened in setting up the request
           console.error("Error in setup:", error.message);
         }
       } else {
@@ -119,16 +113,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logoutUser = async () => {
     try {
-      // Make a GET request to your logout endpoint
       const response = await axios.get(`${baseURL}/api/logout`, {
         withCredentials: true,
       });
 
       if (response.status === 200) {
-        // Successfully logged out, clear the user data and redirect to the login page
-
-        setUserData(null); // Clear user data in your context
-        router.push("/Pages/auth/login"); // Redirect to the login page
+        setUserData(null);
+        router.push("/Pages/auth/login");
       } else {
         throw new Error("Failed to log out");
       }
@@ -144,7 +135,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         userData: userData,
         loginUser: loginUser,
         logoutUser: logoutUser,
-        //Socket data
+        // Socket data
         socket,
         isConnected,
       }}

@@ -10,18 +10,19 @@ function BattlePit() {
   const [isInQueue, setIsInQueue] = useState<boolean>(true);
 
   useEffect(() => {
-    if (socket && userData) {
-      socket?.on("match_found", (Opponent: UserDataType) => {
+    if (socket.current && userData) {
+      socket.current?.on("match_found", (Opponent: UserDataType) => {
+        console.log("Here");
         setOpponent(Opponent);
         console.log("Opponent found: ", Opponent.name);
         setIsInQueue(false);
       });
 
       return () => {
-        socket?.off("match_found");
+        socket.current?.off("match_found");
       };
     }
-  }, [socket, userData]);
+  }, [socket.current, userData]);
 
   return (
     <>
