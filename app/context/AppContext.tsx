@@ -50,7 +50,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (userData) {
-      const newSocket = io(`${baseURL!}/`, {
+      const newSocket = io(`${baseURL!}`, {
         withCredentials: true,
         transports: ["websocket"],
       });
@@ -59,7 +59,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsConnected(true);
         console.log("Connected to the server");
 
-        socket?.emit("register_player", userData._id);
+        newSocket?.emit("register_player", userData._id);
       });
 
       newSocket.on("disconnect", () => {
