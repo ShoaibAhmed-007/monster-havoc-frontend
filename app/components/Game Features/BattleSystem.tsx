@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { useAppContext } from "@/app/context/AppContext";
 import { Scale } from "lucide-react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function BattleSystem() {
+  const router = useRouter();
+
   const handleMatchMaking = async function () {
     try {
       const result = await axios.post(
@@ -15,6 +18,10 @@ function BattleSystem() {
       );
       if (result) {
         console.log(result);
+
+        if (result.status === 200) {
+          router.push("/Pages/battlepit");
+        }
       } else {
         throw new Error("Error occured add to queue!");
       }
