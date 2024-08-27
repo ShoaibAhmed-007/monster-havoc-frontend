@@ -11,18 +11,37 @@ function BattlePit() {
 
   useEffect(() => {
     if (socket.current && userData) {
-      socket.current?.on("match_found", (Opponent: UserDataType) => {
-        console.log("Here");
+      console.log("Setting up match_found listener for:", userData.name);
+      console.log("Socket ID:", socket.current.id);
+
+      socket.current.on("match_found", (Opponent: UserDataType) => {
+        console.log("Match found event received.");
         setOpponent(Opponent);
-        console.log("Opponent found: ", Opponent.name);
+        console.log("Opponent found:", Opponent.name);
         setIsInQueue(false);
       });
-
+      socket.current.emit("attempt_matchmaking");
       return () => {
+        console.log("Cleaning up match_found listener for:", userData.name);
         socket.current?.off("match_found");
       };
     }
   }, [socket.current, userData]);
+
+  // useEffect(() => {
+  //   if (socket.current && userData) {
+  //     socket.current?.on("match_found", (Opponent: UserDataType) => {
+  //       console.log("Here");
+  //       setOpponent(Opponent);
+  //       console.log("Opponent found: ", Opponent.name);
+  //       setIsInQueue(false);
+  //     });
+
+  //     return () => {
+  //       socket.current?.off("match_found");
+  //     };
+  //   }
+  // }, [socket.current, userData]);
 
   return (
     <>

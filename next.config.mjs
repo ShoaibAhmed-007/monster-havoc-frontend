@@ -24,6 +24,7 @@ const redirects = {
       },
     ];
   },
+  // reactStrictMode: false,
   images: {
     domains: ["res.cloudinary.com"],
   },
