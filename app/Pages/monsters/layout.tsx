@@ -8,13 +8,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <div className="bodyBgImg"></div>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <div>
+      <div className="bodyBgImg"></div>
+      <Navbar />
+      {children}
+      <Footer />
+    </div>
   );
 }

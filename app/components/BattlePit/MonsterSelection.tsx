@@ -20,7 +20,7 @@ type serverMonsterType = {
   abilities: abilitiesType[] | undefined;
 };
 
-interface userMonsterType {
+export interface userMonsterType {
   abilities: abilitiesType[];
   monster: monsterType;
 }
@@ -32,22 +32,24 @@ function MonsterSelection() {
     null
   );
 
+  const [countdown, setCountdown] = useState<number | null>(15);
+
   async function getUserMonsters() {
-    const fetchedMonsters = await axios.get(
+    const fetchedUserMonsters = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getUserMonsters`,
       { withCredentials: true }
     );
 
-    const userMonsters: userMonsterType[] = fetchedMonsters.data.monsters.map(
-      (evolObj: any) => {
+    const userMonsters: userMonsterType[] =
+      fetchedUserMonsters.data.monsters.map((evolObj: any) => {
         console.log(evolObj, "Evol Obj");
         const mainMonster = {
           abilities: evolObj.abilities,
           monster: evolObj.monster as monsterType,
+          monsterLvl: evolObj.monsterLevel,
         };
         return mainMonster;
-      }
-    );
+      });
 
     setMonsters(userMonsters);
   }
@@ -84,10 +86,20 @@ function MonsterSelection() {
 
   useEffect(() => {
     getUserMonsters();
-  }, []);
+
+    if (socket?.current) {
+      socket?.current?.on("countdown_update", (updated_countdown) => {
+        console.log(updated_countdown);
+        setCountdown(updated_countdown);
+      });
+
+      socket?.current?.emit("select_monster_countdown_start", userData?._id);
+    }
+  }, [socket?.current]);
 
   return (
     <>
+      {countdown && <h1>Time remaining: {countdown}</h1>}
       <h1 className="text-xl text-center font-bold my-3">
         Select Your Monster
       </h1>

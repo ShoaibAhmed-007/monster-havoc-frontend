@@ -3,6 +3,8 @@ import Card from "@/app/components/Card";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import GenerateRandomMonster from "@/app/components/GenerateRandomMonster";
+import { userMonsterType } from "@/app/components/BattlePit/MonsterSelection";
+import { useAppContext } from "@/app/context/AppContext";
 
 export type statsType = {
   attack: Number;
@@ -23,23 +25,25 @@ export type monsterType = {
 };
 
 function page() {
-  const [monsters, setMonsters] = useState<monsterType[] | null>(null);
   const [lockedMonsters, setLockedMonsters] = useState<monsterType[]>([]);
-  const [allMonsters, setAllMonsters] = useState<monsterType[]>([]);
-  const [showGenerateComponent, setShowGenerateComponent] =
-    useState<boolean>(false);
+  const { monsters, setMonsters } = useAppContext();
 
   async function getAllMonsters() {
     try {
-      const userMonstersResponse = await axios.get(
+      const fetchedUserMonsters = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getUserMonsters`,
         { withCredentials: true }
       );
 
-      let userMonsters: monsterType[] = [];
-      userMonstersResponse.data.monsters.forEach((evolObj: any) => {
-        userMonsters.push(evolObj.monster as monsterType);
-      });
+      const userMonsters: userMonsterType[] =
+        fetchedUserMonsters.data.monsters.map((evolObj: any) => {
+          const mainMonster = {
+            abilities: evolObj.abilities,
+            monster: evolObj.monster as monsterType,
+            monsterLvl: evolObj.monsterLevel,
+          };
+          return mainMonster;
+        });
       setMonsters(userMonsters);
 
       const allMonstersResponse = await axios.get(
@@ -47,13 +51,14 @@ function page() {
         { withCredentials: true }
       );
 
-      setAllMonsters(allMonstersResponse.data.monsters);
+      // setAllMonsters(allMonstersResponse.data.monsters);
 
       let locked = allMonstersResponse.data.monsters.filter(
         (monster: monsterType) => {
           // Check if this monster's ID exists in the monsters array
-          const isLocked = !userMonstersResponse.data.monsters?.some(
-            (userMonst: monsterType) => userMonst._id === monster._id
+          const isLocked = !fetchedUserMonsters.data.monsters?.some(
+            (userMonster: userMonsterType) =>
+              userMonster.monster._id === monster._id
           );
 
           return isLocked;
@@ -88,25 +93,9 @@ function page() {
     getAllMonsters();
   }, []);
 
-  useEffect(() => {
-    if (monsters?.length === 0 && allMonsters.length > 0) {
-      setShowGenerateComponent(true);
-    }
-  }, [allMonsters, monsters]);
-
   return (
     <>
       <div className="flex justify-center items-center py-10 w-full z-10">
-        {showGenerateComponent && (
-          <div className="fixed flex justify-center items-center bg-[#00000093] top-0 bottom-0 right-0 left-0 h-screen w-full z-50">
-            <GenerateRandomMonster
-              allMonsters={allMonsters}
-              closeShowGenerateComponent={() => setShowGenerateComponent(false)}
-              getAllMonsters={getAllMonsters}
-            />
-          </div>
-        )}
-
         <div className="bg-black bg-opacity-50 p-5 flex flex-col items-center w-full">
           <div className="bg-black bg-opacity-70 p-5 min-h-[50vh]">
             <div className="h-full w-full">
@@ -114,8 +103,8 @@ function page() {
                 Your Monsters
               </h1>
               <div className="grid grid-cols-4">
-                {monsters?.map((monster) => {
-                  return <Card monster={monster} />;
+                {monsters?.map((userMonster) => {
+                  return <Card monster={userMonster.monster} />;
                 })}
               </div>
             </div>

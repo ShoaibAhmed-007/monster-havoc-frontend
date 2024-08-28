@@ -52,7 +52,9 @@ const RandomMonsterSpinner = ({
 
   async function addingMonster(selectedMonster: monsterType) {
     await addUserMonster(selectedMonster!._id);
-    getAllMonsters!();
+    if (getAllMonsters) {
+      getAllMonsters!();
+    }
   }
 
   const generateRandomMonster = () => {
