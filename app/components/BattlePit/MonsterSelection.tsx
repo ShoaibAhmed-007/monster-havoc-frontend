@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { monsterType, statsType } from "@/app/Pages/monsters/page";
 import Card from "../Card";
+import { useAppContext } from "@/app/context/AppContext";
 
 type abilitiesType = {
   name: string;
@@ -25,6 +26,7 @@ interface userMonsterType {
 }
 
 function MonsterSelection() {
+  const { socket, userData } = useAppContext();
   const [monsters, setMonsters] = useState<userMonsterType[]>([]);
   const [selectedMonsterId, setSelectedMonsterId] = useState<string | null>(
     null
@@ -71,6 +73,7 @@ function MonsterSelection() {
           abilities: selectedMonster?.abilities,
         };
         console.log("Selected Monster:", finalMonster);
+        socket?.current?.emit("monster_selected", finalMonster, userData?._id);
       } else {
         console.log("Monster not found");
       }

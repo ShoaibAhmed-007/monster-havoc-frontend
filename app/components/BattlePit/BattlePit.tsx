@@ -21,7 +21,19 @@ function BattlePit() {
         console.log("Opponent found:", Opponent.name);
         setIsInQueue(false);
       });
+
       socket.current.emit("attempt_matchmaking");
+      socket.current.on(
+        "start_battle",
+        ({ playerMonster, opponentMonster }) => {
+          console.log(
+            "Battle started between",
+            playerMonster,
+            "VS",
+            opponentMonster
+          );
+        }
+      );
       return () => {
         console.log("Cleaning up match_found listener for:", userData.name);
         socket.current?.off("match_found");
