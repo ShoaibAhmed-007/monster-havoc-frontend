@@ -2,6 +2,7 @@
 
 import { useAppContext, UserDataType } from "@/app/context/AppContext";
 import { useEffect, useState } from "react";
+import MonsterSelection from "./MonsterSelection";
 
 function BattlePit() {
   const { socket, userData } = useAppContext();
@@ -28,21 +29,6 @@ function BattlePit() {
     }
   }, [socket.current, userData]);
 
-  // useEffect(() => {
-  //   if (socket.current && userData) {
-  //     socket.current?.on("match_found", (Opponent: UserDataType) => {
-  //       console.log("Here");
-  //       setOpponent(Opponent);
-  //       console.log("Opponent found: ", Opponent.name);
-  //       setIsInQueue(false);
-  //     });
-
-  //     return () => {
-  //       socket.current?.off("match_found");
-  //     };
-  //   }
-  // }, [socket.current, userData]);
-
   return (
     <>
       <div>
@@ -55,6 +41,7 @@ function BattlePit() {
         {opponent ? (
           <div>
             <p>You have been matched with {opponent.name}</p>
+            <MonsterSelection />
           </div>
         ) : (
           <p>Waiting for an opponent...</p>

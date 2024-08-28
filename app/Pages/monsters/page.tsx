@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import GenerateRandomMonster from "@/app/components/GenerateRandomMonster";
 
-type statsType = {
+export type statsType = {
   attack: Number;
   defense: Number;
   speed: Number;
