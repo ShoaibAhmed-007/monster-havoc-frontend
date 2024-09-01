@@ -23,6 +23,7 @@ type serverMonsterType = {
 export interface userMonsterType {
   abilities: abilitiesType[];
   monster: monsterType;
+  monsterLevel: number;
 }
 
 function MonsterSelection() {
@@ -54,15 +55,16 @@ function MonsterSelection() {
     setMonsters(userMonsters);
   }
 
-  const handleClick = (monsterId: string) => {
+  const selectMonster = (monsterId: string) => {
     console.log("Monster ID clicked:", monsterId);
     setSelectedMonsterId(monsterId);
   };
 
-  const handleSubmit = () => {
-    if (selectedMonsterId) {
+  const handleSubmit = (monsterId?: string) => {
+    if (selectedMonsterId || monsterId) {
       const selectedMonster = monsters.find(
-        (monsterObj) => monsterObj.monster._id === selectedMonsterId
+        (monsterObj) =>
+          monsterObj.monster._id === monsterId || selectedMonsterId
       );
       if (selectedMonster) {
         console.log(selectedMonster);
@@ -86,16 +88,37 @@ function MonsterSelection() {
 
   useEffect(() => {
     getUserMonsters();
+  }, []);
 
+  useEffect(() => {
     if (socket?.current) {
       socket?.current?.on("countdown_update", (updated_countdown) => {
-        console.log(updated_countdown);
         setCountdown(updated_countdown);
+
+        //if user has not selected any monster in given countdown we will select the monster with highest level my default
+        if (updated_countdown === 0) {
+          let monsterWithHighestLevel: userMonsterType = monsters.reduce(
+            (highest, current) => {
+              return current.monsterLevel > highest.monsterLevel
+                ? current
+                : highest;
+            },
+            monsters[0]
+          );
+
+          setSelectedMonsterId(monsterWithHighestLevel.monster._id);
+          setTimeout(() => {
+            handleSubmit(monsterWithHighestLevel.monster._id);
+          }, 2000);
+        }
       });
 
       socket?.current?.emit("select_monster_countdown_start", userData?._id);
+      return () => {
+        socket.current?.off("countdown_update");
+      };
     }
-  }, [socket?.current]);
+  }, [socket?.current, monsters]);
 
   return (
     <>
@@ -106,14 +129,21 @@ function MonsterSelection() {
       <div className="grid grid-cols-4">
         {monsters.map((monsterObj) => (
           <div
-            onClick={() => handleClick(monsterObj.monster._id)}
+            onClick={() => selectMonster(monsterObj.monster._id)}
             key={monsterObj.monster._id}
           >
-            <Card monster={monsterObj.monster} />
+            <Card
+              monster={monsterObj.monster}
+              selectedMonster={selectedMonsterId!}
+            />
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit}>Select Monster</button>
+      <div className="w-full flex justify-center items-center">
+        <button className="btn-primary" onClick={() => handleSubmit()}>
+          Start Battle
+        </button>
+      </div>
     </>
   );
 }

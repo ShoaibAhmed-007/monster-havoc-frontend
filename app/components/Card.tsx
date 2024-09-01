@@ -1,15 +1,34 @@
 import React from "react";
 import Image from "next/image";
-import { FaHeart, FaShieldAlt, FaBolt, FaFistRaised } from "react-icons/fa"; // Font Awesome icons
+import {
+  FaHeart,
+  FaShieldAlt,
+  FaBolt,
+  FaFistRaised,
+  FaCheckCircle,
+} from "react-icons/fa"; // Font Awesome icons
 import { monsterType } from "../Pages/monsters/page";
 
 type cardProps = {
   monster: monsterType;
+  selectedMonster: string | null;
 };
 
-function Card({ monster }: cardProps) {
+function Card({ monster, selectedMonster }: cardProps) {
   return (
-    <div className="min-w-64 max-w-64 flex flex-col gap-2 p-4 bg-gray-800 rounded-lg shadow-lg border-2 border-yellow-500">
+    <div
+      className={`relative cursor-pointer transition-all  ${
+        monster._id === selectedMonster
+          ? "brightness-125 cursor-default"
+          : "hover:brightness-125"
+      } min-w-64 max-w-64 flex flex-col gap-2 p-4 bg-gray-800 rounded-lg shadow-lg border-2 border-yellow-500`}
+    >
+      {monster._id === selectedMonster && (
+        <div className="absolute top-2 right-3">
+          <FaCheckCircle color="#65CDAA" />
+        </div>
+      )}
+
       <div className="text-center text-white font-bold text-lg">
         {monster?.name}
       </div>

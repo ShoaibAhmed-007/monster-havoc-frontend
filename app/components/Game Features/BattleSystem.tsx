@@ -20,7 +20,7 @@ function BattleSystem() {
         console.log(result);
 
         if (result.status === 200) {
-          router.push("/Pages/battlepit");
+          router.push("/Pages/match-making");
         }
       } else {
         throw new Error("Error occured add to queue!");

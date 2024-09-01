@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function BattlePitLayout({
+export default function MatchMakingtLayout({
   children,
 }: {
   children: React.ReactNode;

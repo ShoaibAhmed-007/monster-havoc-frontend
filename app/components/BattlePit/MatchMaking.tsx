@@ -4,7 +4,7 @@ import { useAppContext, UserDataType } from "@/app/context/AppContext";
 import { useEffect, useState } from "react";
 import MonsterSelection from "./MonsterSelection";
 
-function BattlePit() {
+function MatchMaking() {
   const { socket, userData } = useAppContext();
   const [opponent, setOpponent] = useState<UserDataType | null>(null);
 
@@ -39,7 +39,7 @@ function BattlePit() {
         socket.current?.off("match_found");
       };
     }
-  }, [socket.current, userData]);
+  }, [socket?.current, userData]);
 
   return (
     <>
@@ -49,7 +49,7 @@ function BattlePit() {
             <p>You are in matchmaking queue</p>
           </div>
         )}
-        <h1>Battle Page</h1>
+        <h1>Monster Select Screen</h1>
         {opponent ? (
           <div>
             <p>You have been matched with {opponent.name}</p>
@@ -62,4 +62,4 @@ function BattlePit() {
     </>
   );
 }
-export default BattlePit;
+export default MatchMaking;

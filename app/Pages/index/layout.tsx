@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
-export default function AuthLayout({
+export default function IndexLayout({
   children,
 }: {
   children: React.ReactNode;
