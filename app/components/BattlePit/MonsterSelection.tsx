@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { monsterType, statsType } from "@/app/Pages/monsters/page";
 import Card from "../Card";
@@ -32,6 +32,8 @@ function MonsterSelection() {
   const [selectedMonsterId, setSelectedMonsterId] = useState<string | null>(
     null
   );
+
+  const listenerAddedRef = useRef(false);
 
   const [countdown, setCountdown] = useState<number | null>(15);
 
@@ -77,7 +79,7 @@ function MonsterSelection() {
           abilities: selectedMonster?.abilities,
         };
         console.log("Selected Monster:", finalMonster);
-        socket?.current?.emit("monster_selected", finalMonster, userData?._id);
+        socket?.current?.emit("start_battle", finalMonster, userData?._id);
       } else {
         console.log("Monster not found");
       }
@@ -91,34 +93,41 @@ function MonsterSelection() {
   }, []);
 
   useEffect(() => {
-    if (socket?.current) {
-      socket?.current?.on("countdown_update", (updated_countdown) => {
+    //if user has not selected any monster in given countdown we will select the monster with highest level my default
+    if (countdown === 0) {
+      let monsterWithHighestLevel: userMonsterType = monsters.reduce(
+        (highest, current) => {
+          return current.monsterLevel > highest.monsterLevel
+            ? current
+            : highest;
+        },
+        monsters[0]
+      );
+
+      setSelectedMonsterId(monsterWithHighestLevel.monster._id);
+      setTimeout(() => {
+        handleSubmit(monsterWithHighestLevel.monster._id);
+      }, 2000);
+    }
+  }, [countdown]);
+
+  useEffect(() => {
+    if (socket?.current && !listenerAddedRef.current) {
+      const handleCountdownUpdate = (updated_countdown: number) => {
         setCountdown(updated_countdown);
+      };
 
-        //if user has not selected any monster in given countdown we will select the monster with highest level my default
-        if (updated_countdown === 0) {
-          let monsterWithHighestLevel: userMonsterType = monsters.reduce(
-            (highest, current) => {
-              return current.monsterLevel > highest.monsterLevel
-                ? current
-                : highest;
-            },
-            monsters[0]
-          );
+      socket.current.on("countdown_update", handleCountdownUpdate);
+      listenerAddedRef.current = true; // Mark the listener as added
 
-          setSelectedMonsterId(monsterWithHighestLevel.monster._id);
-          setTimeout(() => {
-            handleSubmit(monsterWithHighestLevel.monster._id);
-          }, 2000);
-        }
-      });
+      socket.current.emit("select_monster_countdown_start", userData?._id);
 
-      socket?.current?.emit("select_monster_countdown_start", userData?._id);
       return () => {
-        socket.current?.off("countdown_update");
+        socket.current?.off("countdown_update", handleCountdownUpdate);
+        listenerAddedRef.current = false; // Reset when unmounting
       };
     }
-  }, [socket?.current, monsters]);
+  }, []);
 
   return (
     <>
